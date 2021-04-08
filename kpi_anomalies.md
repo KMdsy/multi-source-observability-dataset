@@ -18,30 +18,28 @@
 - Kubernetes 的强项在于容器编排，可以很好解决应用上云的问题。Kubernetes 可以运行在 OpenStack 上。Kubernetes 的好处，推荐来自浙大的这篇文章：请注意，容器技术圈已迈入后Kubernetes时代！
 
 以下是5个OpenStack的重要构成部分：
-	- Nova – 计算服务
-	- Swift – 存储服务
-	- Glance – 镜像服务
-	- `Keystone` – 认证服务
-	- Horizon – UI服务
+- Nova：计算服务
+- Swift：存储服务
+- Glance：镜像服务
+- Keystone：认证服务
+- Horizon：UI服务
 
 ## k8s架构
 
 主节点 (Master node)
+
 > API server: 是整个系统的对外接口，供客户端和其它组件调用，相当于“营业厅”
 > Scheduler: 负责对集群内部的资源进行调度，相当于“调度室”
 > Controller manager: 负责管理控制器，相当于“大总管”
 
-	|_ node节点 (Compute node)
-	   > Pod: 是Kubernetes最基本的操作单元。一个Pod代表着集群中运行的一个进程，它内部封装了一个或多个紧密相关的容器。除了Pod之外，K8S还有一个Service的概念，一个Service可以看作一组提供相同服务的Pod的对外访问接口。
-	   > Docker: 创建容器的
-	   > kubelet: 主要负责监视指派到它所在Node上的Pod，包括创建、修改、监控、删除等
-	   > kube-proxy: 主要负责为Pod对象提供代理
-	   > `Fluentd`: 主要负责日志收集、存储与查询
-	   > kube-dns
+node节点 (Compute node)
 
-	|_ ...
-
-	|_ node节点x (Compute node s)
+> Pod: 是Kubernetes最基本的操作单元。一个Pod代表着集群中运行的一个进程，它内部封装了一个或多个紧密相关的容器。除了Pod之外，K8S还有一个Service的概念，一个Service可以看作一组提供相同服务的Pod的对外访问接口。
+> Docker: 创建容器的
+> kubelet: 主要负责监视指派到它所在Node上的Pod，包括创建、修改、监控、删除等
+> kube-proxy: 主要负责为Pod对象提供代理
+> `Fluentd`: 主要负责日志收集、存储与查询
+> kube-dns
 
 
 
@@ -59,7 +57,7 @@ wally113 (node, controller, ip: 130.149.249.123)
 
 	|_ wally124 (node, compute, ip: 130.149.249.134)
 
-
+--------------
 
 # 已核对的事件
 
@@ -102,19 +100,18 @@ do
 done
 ```
 
+os-faults-latest.yaml
 ```yaml
-  nova_compute:
-    driver: docker_container
-    args:
-      container_name: nova_compute
-    hosts:
-    - 130.149.249.132
-    - 130.149.249.134
-    - 130.149.249.133
-    - 130.149.249.127
+nova_compute:
+	driver: docker_container
+	args:
+		container_name: nova_compute
+	hosts:
+	- 130.149.249.132
+	- 130.149.249.134
+	- 130.149.249.133
+	- 130.149.249.127
 ```
-
------
 
 2. GlanceImages.create_and_delete_image (extracted from `j_image_report.html`)
 	- 运行文件`action`：sh ./restart_glance_container.sh
@@ -144,16 +141,15 @@ do
 done
 ```
 
+os-faults-latest.yaml
 ```yaml
-  glance_api:
-    driver: docker_container
-    args:
-      container_name: glance_api
-    hosts:
-    - 130.149.249.123
+glance_api:
+	driver: docker_container
+	args:
+		container_name: glance_api
+	hosts:
+	- 130.149.249.123
 ```
-
------
 
 3. NeutronNetworks.create_and_delete_networks
 	- 运行文件`action`：sh ./restart_neutron_container.sh
@@ -195,6 +191,7 @@ do
 done
 ```
 
+--------------
 
 # 异常总结
 
@@ -206,56 +203,58 @@ done
 	- 时间`trigger`：[250, 500] iteration
 	- 细节`runner`：每一次事件触发，都有`3`个进程同时测试、模拟多用户并发访问的情况。task中执行测试用例的次数：750
 
-	- 从配置文件得到的信息：**被重启的`nova_compute`位于wally117, wally122, wally123, wally124上，但位于wally113控制节点上的也被重启了，看看有没有影响**
+	- 从配置文件得到的信息：被重启的`nova_compute`位于wally117, wally122, wally123, wally124上，但位于wally113控制节点上的也被重启了，看看有没有影响
 
-	- 受影响的节点：
+	- **受影响的节点：**
 		- wally113:未受影响
 		- wally117:mem.used, load.min5, load.min15, load.min1, cpu.user (load.cpucore未受影响)
 		- wally122:mem.used, load.min5, load.min15, load.min1, cpu.user (load.cpucore未受影响)
 		- wally123:mem.used, load.min5, load.min15, load.min1, cpu.user (load.cpucore未受影响)
 		- wally124:mem.used, load.min5, load.min15, load.min1, cpu.user (load.cpucore未受影响)
 
-	- 受影响的时间：
+	- **受影响的时间：**
 		- `2019-11-19 23:51:43.166326 CEST` to `2019-11-19 23:52:23.408740 CEST`
 		- `2019-11-20 00:59:51.691804 CEST` to `2019-11-20 01:00:36.260246 CEST`
 
+-----
 
 2. GlanceImages.create_and_delete_image (extracted from `j_image_report.html`)
 	- 时间`trigger`：[250, 500, 750] iteration
 	- 细节`runner`：每一次事件触发，都有`3`个进程同时测试、模拟多用户并发访问的情况。task中执行测试用例的次数：1000
 
-	- 从配置文件得到的信息：**被重启的`glance_api`位于wally113控制节点上**
+	- 从配置文件得到的信息：被重启的`glance_api`位于wally113控制节点上
 
-	- 受影响的节点：
+	- **受影响的节点：**
 		- wally113:mem.used, cpu.user (load.cpucore, load.min5, load.min15, load.min1, 未受影响)
 		- wally117:未受影响
 		- wally122:未受影响
 		- wally123:未受影响
 		- wally124:未受影响
 
-	- 受影响的时间：
+	- **受影响的时间：**
 		- 2019-11-19 18:53:46.522151 CEST to 2019-11-19 18:53:49.594851 CEST
 		- 2019-11-19 19:06:36.028661 CEST to 2019-11-19 19:06:38.426867 CEST
 		- 2019-11-19 19:21:25.403098 CEST to 2019-11-19 19:21:27.677400 CEST
 
+-----
 
 3. NeutronNetworks.create_and_delete_networks
 	- 时间`trigger`：[250, 500, 750] iteration
 	- 细节`runner`：每一次事件触发，都有`1`个进程同时测试、模拟多用户并发访问的情况。task中执行测试用例的次数：1000
 
-	- 从配置文件得到的信息：**被重启的下列container中，仅有`neutron_openvswitch_agent`在所有的主机上均部署，其他container只在`wally113`上部署。**
+	- 从配置文件得到的信息：被重启的下列container中，仅有`neutron_openvswitch_agent`在所有的主机上均部署，其他container只在`wally113`上部署。
 
-	- 受影响的节点：
+	- **受影响的节点：**
 		- wally113:mem.used, cpu.user (load.cpucore, load.min5, load.min15, load.min1, 未受影响)
 		- wally117:未受影响
 		- wally122:未受影响
 		- wally123:未受影响
 		- wally124:未受影响
 
-	- 受影响的时间：
-		- 2019-11-19 21:07:04.786645 CEST,2019-11-19 21:07:25.174582 CEST
-		- 2019-11-19 21:13:34.766503 CEST,2019-11-19 21:13:55.707878 CEST
-		- 2019-11-19 21:20:13.881568 CEST,2019-11-19 21:20:36.138048 CEST
+	- **受影响的时间：**
+		- 2019-11-19 21:07:04.786645 CEST to 2019-11-19 21:07:25.174582 CEST
+		- 2019-11-19 21:13:34.766503 CEST to 2019-11-19 21:13:55.707878 CEST
+		- 2019-11-19 21:20:13.881568 CEST to 2019-11-19 21:20:36.138048 CEST
 
 ----
 
