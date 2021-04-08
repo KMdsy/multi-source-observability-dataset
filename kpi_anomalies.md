@@ -29,16 +29,23 @@
 主节点 (Master node)
 
 > API server: 是整个系统的对外接口，供客户端和其它组件调用，相当于“营业厅”
+> 
 > Scheduler: 负责对集群内部的资源进行调度，相当于“调度室”
+> 
 > Controller manager: 负责管理控制器，相当于“大总管”
 
 node节点 (Compute node)
 
 > Pod: 是Kubernetes最基本的操作单元。一个Pod代表着集群中运行的一个进程，它内部封装了一个或多个紧密相关的容器。除了Pod之外，K8S还有一个Service的概念，一个Service可以看作一组提供相同服务的Pod的对外访问接口。
+> 
 > Docker: 创建容器的
+> 
 > kubelet: 主要负责监视指派到它所在Node上的Pod，包括创建、修改、监控、删除等
+> 
 > kube-proxy: 主要负责为Pod对象提供代理
+> 
 > `Fluentd`: 主要负责日志收集、存储与查询
+> 
 > kube-dns
 
 
@@ -49,13 +56,13 @@ extracted from file: `multi-source-observabil, ity-dataset/workloads/os-faults-l
 
 wally113 (node, controller, ip: 130.149.249.123)
 
-	|_ wally117 (node, compute, ip: 130.149.249.127)
-	
-	|_ wally122 (node, compute, ip: 130.149.249.132)
+|_ wally117 (node, compute, ip: 130.149.249.127)
 
-	|_ wally123 (node, compute, ip: 130.149.249.133)
+|_ wally122 (node, compute, ip: 130.149.249.132)
 
-	|_ wally124 (node, compute, ip: 130.149.249.134)
+|_ wally123 (node, compute, ip: 130.149.249.133)
+
+|_ wally124 (node, compute, ip: 130.149.249.134)
 
 --------------
 
@@ -101,7 +108,7 @@ done
 ```
 
 os-faults-latest.yaml
-```yaml
+```
 nova_compute:
 	driver: docker_container
 	args:
@@ -142,7 +149,7 @@ done
 ```
 
 os-faults-latest.yaml
-```yaml
+```
 glance_api:
 	driver: docker_container
 	args:
