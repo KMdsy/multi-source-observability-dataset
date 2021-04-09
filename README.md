@@ -2,9 +2,9 @@
 
 本fork用于暂时记录一些使用原数据集时，用于处理数据、生成ground truth 以及 对代码的理解。以下是原readme file。
 
-- 用于理解本数据集的一些前序知识、异常对具体KPI维度的影响（可以用作ground truth）[link](kpi_anomalies.md)
-- 数据可视化与ground truth重新标定 [link](./view_dataset/index.md)
-- Add file: [Ground truth of KPI anomalies (Sequential data)](anomaly_label_sequential.csv)
+- 用于理解本数据集的一些前序知识、异常对具体KPI维度的影响（可以用作ground truth）：[link](kpi_anomalies.md)
+- 数据可视化与ground truth重新标定：[link](./view_dataset/index.md)
+- 调整后的KPI异常ground truth: [Ground truth of KPI anomalies (Sequential data)](anomaly_label_sequential.csv)
 
 ----------------
 
