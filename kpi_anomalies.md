@@ -214,10 +214,10 @@ done
 
 	- **受影响的节点：**
 		- wally113:未受影响
-		- wally117:mem.used, load.min5, load.min15, load.min1, cpu.user (load.cpucore未受影响)
-		- wally122:mem.used, load.min5, load.min15, load.min1, cpu.user (load.cpucore未受影响)
-		- wally123:mem.used, load.min5, load.min15, load.min1, cpu.user (load.cpucore未受影响)
-		- wally124:mem.used, load.min5, load.min15, load.min1, cpu.user (load.cpucore未受影响)
+		- wally117:mem.used
+		- wally122:mem.used
+		- wally123:mem.used
+		- wally124:mem.used
 
 	- **受影响的时间：**
 		- `2019-11-19 23:51:43.166326 CEST` to `2019-11-19 23:52:23.408740 CEST`
@@ -232,7 +232,7 @@ done
 	- 从配置文件得到的信息：被重启的`glance_api`位于wally113控制节点上
 
 	- **受影响的节点：**
-		- wally113:mem.used, cpu.user (load.cpucore, load.min5, load.min15, load.min1, 未受影响)
+		- wally113:mem.used, cpu.user
 		- wally117:未受影响
 		- wally122:未受影响
 		- wally123:未受影响
@@ -252,7 +252,7 @@ done
 	- 从配置文件得到的信息：被重启的下列container中，仅有`neutron_openvswitch_agent`在所有的主机上均部署，其他container只在`wally113`上部署。
 
 	- **受影响的节点：**
-		- wally113:mem.used, cpu.user (load.cpucore, load.min5, load.min15, load.min1, 未受影响)
+		- wally113:mem.used, cpu.user
 		- wally117:未受影响
 		- wally122:未受影响
 		- wally123:未受影响
