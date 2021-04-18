@@ -5,9 +5,11 @@
 
 2. Load and process the KPI data. Run `ts_process.py`. Processed data is saved at dir `result_extracted_data`.
 
-3. View the dataset and anomaly events extracted from Rally Report using [*Dash*](https://dash.plotly.com/introduction), which is a python visualization tool base on *Flask, Plotly.js, and React.js*. Run `view_dataset.py`, then visit http://127.0.0.1:8050/ in your web browser (by default) to view the data and anomaly events.
+3. View the dataset and anomaly events extracted from Rally Report in [*Dash*](https://dash.plotly.com/introduction), which is a python visualization tool base on *Flask, Plotly.js, and React.js*. Run `view_dataset.py`, then visit http://127.0.0.1:8050/ in your web browser (by default) to view the data and anomaly events.
 
 (Unzip the files in `result_extracted_data` before running `view_dataset.py`)
+
+4. View the dataset and re-labeled anomaly period using `python view_adjust_anomaly_label.py`
 
 ## Example
 

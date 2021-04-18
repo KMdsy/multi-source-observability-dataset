@@ -1,14 +1,22 @@
 # Multi-Source Distributed System Data for AI-powered Analytics
 
-本fork用于暂时记录一些使用原数据集时用于处理数据、生成ground truth的脚本，以及对数据集的理解。
+This fork records some data processing and visualizing code, including:
 
-- 用于理解本数据集的一些前序知识、异常对具体KPI维度的影响（可以用作ground truth）：[link](kpi_anomalies.md)
-- 数据可视化与ground truth重新标定：[link](./view_dataset/readme.md)
-- 调整后的KPI异常ground truth: [Ground truth of KPI anomalies (Sequential data)](anomaly_label_sequential.csv)
+- some information about "Impact of injection exception on KPI", which are extracted from config file: [link](kpi_anomalies.md)
+- some processed data and visualization code & page, view [this page](./view_dataset/readme.md)
+
+Files in `result_extracted_data`
+- `distributed_ts_df_concurrent.zip` and `distributed_ts_df_sequential.zip`: dataframe extract from original dataset. they have been processed.
+
+Files in `anomaly_label`
+- `anomaly_label_concurrent.csv` and `anomaly_label_sequential.csv`: periods during that anomalies are injected. It is extracted from `report` in original dataset.
+- `run_time.csv`: periods during that anomaly injection scipts are runing.
+- `adjust_anomaly_label_sequential.csv`: anomaly periods in which data points of KPI is affected by injected anomalies. 
 
 以下是原readme file。
 
 ----------------
+*THE ORIGINAL README FILE*
 
 This repository contains the simple scripts for data statistics, and link to the multi-source distributed system dataset.
 
