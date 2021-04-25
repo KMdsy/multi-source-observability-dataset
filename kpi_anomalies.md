@@ -17,12 +17,8 @@
 - OpenStack 很庞大，底层资源管理能力很强。
 - Kubernetes 的强项在于容器编排，可以很好解决应用上云的问题。Kubernetes 可以运行在 OpenStack 上。Kubernetes 的好处，推荐来自浙大的这篇文章：请注意，容器技术圈已迈入后Kubernetes时代！
 
-以下是5个OpenStack的重要构成部分：
-- Nova：计算服务
-- Swift：存储服务
-- Glance：镜像服务
-- Keystone：认证服务
-- Horizon：UI服务
+以下是几个在这个数据集中常出现的openstack组件
+
 
 ### Neutron
 
