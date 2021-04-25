@@ -24,6 +24,52 @@
 - Keystone：认证服务
 - Horizon：UI服务
 
+### Neutron
+
+[参考这个文章](https://blog.csdn.net/weixin_45682995/article/details/104753025)
+
+neutron是openstack中提供网路服务的组件。Neutron仅有一个主要服务进程Neutron-server，它运行于控制节点上。
+
+### Nova
+
+[参考这个文章](https://zhuanlan.zhihu.com/p/34594654)
+
+Nova是Openstack云中的计算组织控制器；管理OpenStack云中实例的生命周期的所有活动；是管理计算资源、网络认证所需的可扩展性平台。
+Nova组件由Nova-API，Nova-scheduler,Nova-conductor,Nova-compute以及提供消息传递的消息队列（message queue）和数据库模块（database）组成
+- Nova-API：主要提供了统一风格的REST-API接口，作为Nova组件的入口，接受用户的请求
+- Nova-scheduler：负责调度将实例分配到具体的计算结点
+- Nova-conductor：主要负责与Nova数据库进行交互
+- Nova-compute： Nova-compute的结点运行在计算节点上，用于虚拟机实例的创建和管理
+- message queue：主要用于Nova各个组件之间的消息传递
+
+Nova-API作为Nova的入口，将会接受用户的请求，然后以消息队列的方式，将请求发送给Nova-scheduler，
+Nova-scheduler从消息队列中侦听到Nova-API的消息后，去数据库中去查询当前计算结点的负载和使用情况，
+
+由于Nova-scheduler不能直接跟数据库进行交互，因此会借助于消息队列的方式，通过Nova-conductor组件进而与数据库进行交互，最后根据查询到的结果，将虚拟机实例分配到当前负载最小并且满足启动虚拟机实例的那个计算节点上
+
+当然实际实例的创建起停工作并不是由Nova-scheduler来完成，Nova-scheduler的主要功能是实现实例的调度分配工作。最终实例的创建还是需要调用另外一个组件Nova-compute来完成，当然实例的创建也离不开镜像、网络、存储等等一些资源的配合，因此Nova-compute组件将会于Nova-valume,Nova-network等等一些组件，通过消息队列的方式实现相互的协作，最终完成虚拟机实例的创建。
+
+![image](https://user-images.githubusercontent.com/16149619/115983030-72573d80-a5d1-11eb-962e-48a9405a39be.png)
+
+### keystone
+
+[参考这个文章](https://blog.csdn.net/weixin_51432789/article/details/114640411)
+
+Keystone 组件是作为OpenStack 集群中统一认证、授权的模块，其核心功能就是针对于User（用户）、Tenant（租户）、Role（角色）、Token（令牌/凭证）的控制（手工编译部署即围绕此功能展开的）
+- User：使用 openstack 的用户。
+- Tenant：租户,可以理解为一个人、项目或者组织拥有的资源的合集。在一个租户中可以拥有很多个用户，这些用户可以根据权限的划分使用租户中的资源。
+- Role：角色，用于分配操作的权限。角色可以被指定给用户，使得该用户获得角色对应的操作权限。
+- Token：指的是一串比特值或者字符串，用来作为访问资源的记号。Token 中含有可访问资源的范围和有效时间，token 是用户的一种凭证，需要使用正确的用户名和密码向 Keystone 服务申请才能得到 token。
+
+### Glance
+
+[参考这个文章](https://blog.csdn.net/weixin_50344914/article/details/114020739)
+
+镜像服务就是用来管理镜像的，让用户能够发现、获取和保存镜像。在openstack中提供提供镜像服务的是glance。（通过扫描、搜索发现镜像，想要获取要先识别和上传）。镜像英文名为image，通常是指一一系列文件或一个磁盘驱动器的精确副本。镜像文件起始和zip压缩包类似，他将特定的一系列文件按照一定的格式格式制作成单一的文件，让用户下载和使用。
+
+
+------
+
 ## k8s架构
 
 主节点 (Master node)
